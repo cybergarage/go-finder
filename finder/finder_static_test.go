@@ -29,7 +29,7 @@ func TestStaticFinder(t *testing.T) {
 		return
 	}
 
-	err = finderTest(finder)
+	err = finderTest(t, finder)
 	if err != nil {
 		t.Error(err)
 	}

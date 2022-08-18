@@ -17,6 +17,7 @@ package finder
 import (
 	"fmt"
 	"regexp"
+	"testing"
 
 	"github.com/cybergarage/go-finder/finder/node"
 )
@@ -43,7 +44,7 @@ func setupTestFinderNodes() []Node {
 	return nodes
 }
 
-func finderTest(finder Finder) error {
+func finderTest(t *testing.T, finder Finder) error {
 	// Check all nodes
 
 	nodes, err := finder.GetAllNodes()
@@ -58,16 +59,25 @@ func finderTest(finder Finder) error {
 	// Check regexp names for a node
 
 	for _, nodeName := range testFinderNodeNames {
-		re := regexp.MustCompile(nodeName)
-		nodes, err := finder.GetRegexpNodes(re)
+		var err error
+		var nodes []node.Node
+		t.Run(nodeName, func(t *testing.T) {
+			re := regexp.MustCompile(nodeName)
+			nodes, err = finder.GetRegexpNodes(re)
+			if err != nil {
+				return
+			}
+			if len(nodes) != 1 {
+				err = fmt.Errorf(testFinderNodeCountError, len(nodes), 1)
+				return
+			}
+			if nodes[0].GetName() != nodeName {
+				err = fmt.Errorf(testFinderMatchingError, nodeName, nodes[0].GetName())
+				return
+			}
+		})
 		if err != nil {
 			return err
-		}
-		if len(nodes) != 1 {
-			return fmt.Errorf(testFinderNodeCountError, len(nodes), 1)
-		}
-		if nodes[0].GetName() != nodeName {
-			return fmt.Errorf(testFinderMatchingError, nodeName, nodes[0].GetName())
 		}
 	}
 
@@ -81,13 +91,21 @@ func finderTest(finder Finder) error {
 	}
 
 	for _, reName := range reNames {
-		re := regexp.MustCompile(reName)
-		nodes, err := finder.GetRegexpNodes(re)
+		var err error
+		var nodes []node.Node
+		t.Run(reName, func(t *testing.T) {
+			re := regexp.MustCompile(reName)
+			nodes, err = finder.GetRegexpNodes(re)
+			if err != nil {
+				return
+			}
+			if len(nodes) != len(testFinderNodeNames) {
+				err = fmt.Errorf(testFinderMatchingCountError, reName, len(nodes), len(testFinderNodeNames))
+				return
+			}
+		})
 		if err != nil {
 			return err
-		}
-		if len(nodes) != len(testFinderNodeNames) {
-			return fmt.Errorf(testFinderMatchingCountError, reName, len(nodes), len(testFinderNodeNames))
 		}
 	}
 
@@ -106,12 +124,20 @@ func finderTest(finder Finder) error {
 	}
 
 	for _, metricsName := range metricsNames {
-		nodes, err := finder.GetPrefixNodes(metricsName)
+		var err error
+		var nodes []node.Node
+		t.Run(metricsName, func(t *testing.T) {
+			nodes, err = finder.GetPrefixNodes(metricsName)
+			if err != nil {
+				return
+			}
+			if len(nodes) != 1 {
+				err = fmt.Errorf(testFinderMatchingCountError, metricsName, len(nodes), 1)
+				return
+			}
+		})
 		if err != nil {
 			return err
-		}
-		if len(nodes) != 1 {
-			return fmt.Errorf(testFinderMatchingCountError, metricsName, len(nodes), 1)
 		}
 	}
 

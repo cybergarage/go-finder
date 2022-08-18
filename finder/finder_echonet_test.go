@@ -76,7 +76,7 @@ func TestEchonetFinder(t *testing.T) {
 	time.Sleep((500 * time.Millisecond) * time.Duration(len(nodes)))
 
 	// FIXME : Update uecho-go to be able to the neighborhood node on CentOS
-	err = finderTest(finder)
+	err = finderTest(t, finder)
 	if err != nil {
 		t.Skip(err)
 	}
