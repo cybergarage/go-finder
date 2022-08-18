@@ -18,14 +18,15 @@ import (
 	"testing"
 	"time"
 
-	finder_echonet "github.com/cybergarage/go-finder/finder/echonet"
+	"github.com/cybergarage/go-finder/finder/echonet"
+	"github.com/cybergarage/go-logger/log"
 )
 
-func setupTestEchonetFinderNodes() ([]*finder_echonet.EchonetNode, error) {
+func setupTestEchonetFinderNodes() ([]*echonet.EchonetNode, error) {
 	nodes := setupTestFinderNodes()
-	echonetNodes := make([]*finder_echonet.EchonetNode, len(nodes))
+	echonetNodes := make([]*echonet.EchonetNode, len(nodes))
 	for n, node := range nodes {
-		echonetNode, err := finder_echonet.NewEchonetNodeWithNode(node)
+		echonetNode, err := echonet.NewEchonetNodeWithNode(node)
 		if err != nil {
 			return nil, err
 		}
@@ -34,7 +35,7 @@ func setupTestEchonetFinderNodes() ([]*finder_echonet.EchonetNode, error) {
 	return echonetNodes, nil
 }
 
-func finderEchonetTest(t *testing.T, finder Finder, nodes []*finder_echonet.EchonetNode) {
+func finderEchonetTest(t *testing.T, finder Finder, nodes []*echonet.EchonetNode) {
 	// Check all nodes
 
 	_, err := finder.GetAllNodes()
@@ -45,6 +46,8 @@ func finderEchonetTest(t *testing.T, finder Finder, nodes []*finder_echonet.Echo
 }
 
 func TestEchonetFinder(t *testing.T) {
+	log.SetStdoutDebugEnbled(true)
+	defer log.SetStdoutDebugEnbled(false)
 
 	nodes, err := setupTestEchonetFinderNodes()
 	if err != nil {
