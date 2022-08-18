@@ -55,11 +55,12 @@ func TestEchonetFinder(t *testing.T) {
 		return
 	}
 
-	for _, node := range nodes {
+	for n, node := range nodes {
 		err = node.Start()
 		if err != nil {
 			t.Error(err)
 		}
+		log.Trace("node[%d]: %s:%d", n, node.GetAddress(), node.GetPort())
 	}
 
 	finder := NewEchonetFinder()

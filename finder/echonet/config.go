@@ -21,7 +21,7 @@ import (
 // NewDefaultConfig returns a default configuration for Echonet node and controller
 func NewDefaultConfig() *echonet.Config {
 	conf := echonet.NewDefaultConfig()
-	conf.SetTCPEnabled(true)
+	conf.SetTCPEnabled(false)
 	conf.SetAutoPortBindingEnabled(true)
 	return conf
 }
