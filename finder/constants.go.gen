@@ -1,0 +1,2 @@
+#!/bin/bash
+../../common/constants.go.gen discovery ../../common/constants.csv '^(finder)'
