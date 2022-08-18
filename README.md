@@ -3,4 +3,4 @@
 
 # go-finder
 
-The `go-finder` go-finder` is a distributed discovery service framework for automatically identifying nodes in a cluster.
+The go-finder is a distributed discovery service framework for automatically identifying nodes in a cluster.
