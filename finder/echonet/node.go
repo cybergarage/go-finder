@@ -19,7 +19,7 @@ import (
 	"reflect"
 
 	"github.com/cybergarage/go-finder/finder/node"
-	uecho_echonet "github.com/cybergarage/uecho-go/net/echonet"
+	uecho "github.com/cybergarage/uecho-go/net/echonet"
 	uecho_protocol "github.com/cybergarage/uecho-go/net/echonet/protocol"
 )
 
@@ -28,7 +28,7 @@ const (
 )
 
 type EchonetNode struct {
-	*uecho_echonet.LocalNode
+	*uecho.LocalNode
 	*EchonetDevice
 	node.Node
 }
@@ -36,7 +36,7 @@ type EchonetNode struct {
 // NewEchonetNodeWithNode returns a new finder node.
 func NewEchonetNodeWithNode(srcNode node.Node) (*EchonetNode, error) {
 	node := &EchonetNode{
-		LocalNode:     uecho_echonet.NewLocalNode(),
+		LocalNode:     uecho.NewLocalNode(),
 		EchonetDevice: NewDevice(),
 		Node:          srcNode,
 	}
@@ -50,18 +50,18 @@ func NewEchonetNodeWithNode(srcNode node.Node) (*EchonetNode, error) {
 	return node, nil
 }
 
-// GetAddress returns the interface address
-func (node *EchonetNode) GetAddress() string {
-	return node.LocalNode.GetAddress()
+// Address returns the interface address
+func (node *EchonetNode) Address() string {
+	return node.LocalNode.Address()
 }
 
 // GetLocalNode returns the local echonet node in the node
-func (node *EchonetNode) GetLocalNode() *uecho_echonet.LocalNode {
+func (node *EchonetNode) GetLocalNode() *uecho.LocalNode {
 	return node.LocalNode
 }
 
 // GetLocalDevice returns the local echonet device in the node.
-func (node *EchonetNode) GetLocalDevice() *uecho_echonet.Device {
+func (node *EchonetNode) GetLocalDevice() *uecho.Device {
 	return node.EchonetDevice.Device
 }
 
@@ -91,8 +91,6 @@ func (node *EchonetNode) NodeMessageReceived(msg *uecho_protocol.Message) error 
 	if !node.HasSourceNode() {
 		return nil
 	}
-
-	node.EchonetDevice.UpdatePropertyWithNode(node)
 
 	return nil
 }

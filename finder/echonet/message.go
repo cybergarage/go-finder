@@ -15,14 +15,14 @@
 package echonet
 
 import (
-	"github.com/cybergarage/uecho-go/net/echonet/protocol"
+	uecho "github.com/cybergarage/uecho-go/net/echonet"
 )
 
 // NewRequestAllPropertiesMessage create a request message to get all properties.
-func NewRequestAllPropertiesMessage() *protocol.Message {
-	msg := protocol.NewMessage()
-	msg.SetESV(protocol.ESVReadRequest)
-	msg.SetDestinationObjectCode(FinderDeviceCode)
-	msg.AddProperties(protocol.NewPropertiesWithCodes(FinderDeviceAllPropertyCodes()))
+func NewRequestAllPropertiesMessage() *uecho.Message {
+	msg := uecho.NewMessage()
+	msg.SetESV(uecho.ESVReadRequest)
+	msg.SetSEOJ(FinderDeviceCode)
+	msg.AddProperties(uecho.NewPropertiesWithCodes(FinderDeviceAllPropertyCodes()))
 	return msg
 }

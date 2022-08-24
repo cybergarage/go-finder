@@ -15,9 +15,9 @@
 package echonet
 
 import (
-	uecho_echonet "github.com/cybergarage/uecho-go/net/echonet"
+	uecho "github.com/cybergarage/uecho-go/net/echonet"
 )
 
 const (
-	ManufacturerCode = uecho_echonet.NodeManufacturerUnknown
+	ManufacturerCode = uecho.NodeManufacturerUnknown
 )
