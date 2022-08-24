@@ -38,7 +38,7 @@ func setupTestFinderNodes() []Node {
 	nodes := make([]Node, len(testFinderNodeNames))
 	for n, name := range testFinderNodeNames {
 		node := node.NewBaseNode()
-		node.Name = name
+		node.SetHost(name)
 		nodes[n] = node
 	}
 	return nodes
@@ -71,8 +71,8 @@ func finderTest(t *testing.T, finder Finder) error {
 				err = fmt.Errorf(testFinderNodeCountError, len(nodes), 1)
 				return
 			}
-			if nodes[0].GetName() != nodeName {
-				err = fmt.Errorf(testFinderMatchingError, nodeName, nodes[0].GetName())
+			if nodes[0].Host() != nodeName {
+				err = fmt.Errorf(testFinderMatchingError, nodeName, nodes[0].Host())
 				return
 			}
 		})

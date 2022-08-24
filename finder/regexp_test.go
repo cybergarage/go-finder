@@ -52,11 +52,11 @@ func TestRegexpGraphite(t *testing.T) {
 		}
 
 		node := node.NewBaseNode()
-		node.Name = name
+		node.SetHost(name)
 
 		ok := re.MatchNode(node)
 		if !ok {
-			t.Errorf("[%d] %s != %s", n, expr, node.GetName())
+			t.Errorf("[%d] %s != %s", n, expr, node.Host())
 			continue
 		}
 

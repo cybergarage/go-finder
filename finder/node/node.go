@@ -23,8 +23,8 @@ import (
 type Node interface {
 	Config
 	Status
-	// GetUniqueID returns a unique ID of the node
-	GetUniqueID() string
+	// UUID() returns a unique ID of the node
+	UUID() string
 }
 
 // Equal returns true if the other node is same with this node
@@ -32,13 +32,12 @@ func Equal(this, other Node) bool {
 	return ConfigEqual(this, other)
 }
 
-// GetUniqueID returns a unique ID of the node
-func GetUniqueID(node Node) string {
-	seed := fmt.Sprintf("%s%s%s%d",
-		node.GetCluster(),
-		node.GetName(),
-		node.GetAddress(),
-		node.GetRPCPort())
+// GetUUID returns a unique ID with the specified node.
+func GetUUID(node Node) string {
+	seed := fmt.Sprintf("%s%s%d",
+		node.Cluster(),
+		node.Host(),
+		node.RPCPort())
 	h := sha256.New()
 	h.Write([]byte(seed))
 	return fmt.Sprintf("%x", h.Sum(nil))

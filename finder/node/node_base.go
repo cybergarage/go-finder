@@ -21,23 +21,19 @@ import (
 // BaseNode represents a base node.
 type BaseNode struct {
 	Node
-	Cluster    string
-	Name       string
-	Address    string
-	RPCPort    int
-	RenderPort int
-	CarbonPort int
-	Clock      Clock
-	Condition  Condition
-	Version    Version
+	cluster string
+	host    string
+	address net.IP
+	rpcPort uint
+	clock   Clock
+	cond    Condition
 }
 
 // NewBaseNode returns a new base node.
 func NewBaseNode() *BaseNode {
 	node := &BaseNode{
-		Condition: ConditionInitial,
-		Clock:     0,
-		Version:   0,
+		cond:  ConditionInitial,
+		clock: 0,
 	}
 	return node
 }
@@ -47,95 +43,108 @@ func NewNode() Node {
 	return NewBaseNode()
 }
 
-// UpdateClock increments the internal clock
+// UpdateClock increments the internal clock.
 func (node *BaseNode) UpdateClock() {
-	node.Clock++
+	node.clock++
 }
 
-// UpdateVersion increments the internal version
-func (node *BaseNode) UpdateVersion() {
-	node.Version++
-}
-
-// SetStatus sets a new status
+// SetStatus sets the specified status to the node.
 func (node *BaseNode) SetStatus(status Status) {
-	node.Clock = status.GetClock()
-	node.Condition = status.GetCondition()
-	node.Version = status.GetVersion()
+	node.clock = status.Clock()
+	node.cond = status.Condition()
 }
 
-// GetCluster returns the cluster name
-func (node *BaseNode) GetCluster() string {
-	return node.Cluster
+// SetCluster sets the specified cluster name to the node.
+func (node *BaseNode) SetCluster(name string) *BaseNode {
+	node.cluster = name
+	return node
 }
 
-// GetName returns the host name
-func (node *BaseNode) GetName() string {
-	if 0 < len(node.Name) {
-		return node.Name
+// SetHost sets the specified host name to the node.
+func (node *BaseNode) SetHost(name string) *BaseNode {
+	node.host = name
+	return node
+}
+
+// SetAddress sets the specified address name to the node.
+func (node *BaseNode) SetAddress(addr net.IP) *BaseNode {
+	node.address = addr
+	return node
+}
+
+// SetRPCPort sets the specified portto the node.
+func (node *BaseNode) SetRPCPort(port uint) *BaseNode {
+	node.rpcPort = port
+	return node
+}
+
+// SetClock sets the specified clock to the node.
+func (node *BaseNode) SetClock(val Clock) {
+	node.clock = val
+}
+
+// SetCondition sets the specified condition to the node.
+func (node *BaseNode) SetCondition(val Condition) {
+	node.cond = val
+}
+
+// Cluster returns the cluster name.
+func (node *BaseNode) Cluster() string {
+	return node.cluster
+}
+
+// Host returns the host name.
+func (node *BaseNode) Host() string {
+	if 0 < len(node.host) {
+		return node.host
 	}
 
-	if len(node.Address) <= 0 {
+	if len(node.address) <= 0 {
 		return ""
 	}
-	names, err := net.LookupAddr(node.Address)
+	names, err := net.LookupAddr(node.address.String())
 	if err != nil {
 		return ""
 	}
-	node.Name = names[0]
+	node.host = names[0]
 
-	return node.Name
+	return node.host
 }
 
-// GetAddress returns the interface address
-func (node *BaseNode) GetAddress() string {
-	if 0 < len(node.Address) {
-		return node.Address
+// Address returns the interface address.
+func (node *BaseNode) Address() net.IP {
+	if 0 < len(node.address) {
+		return node.address
 	}
 
-	if len(node.Name) <= 0 {
-		return ""
+	if len(node.host) <= 0 {
+		return nil
 	}
-	addrs, err := net.LookupIP(node.Name)
+	addrs, err := net.LookupIP(node.host)
 	if err != nil {
-		return ""
+		return nil
 	}
-	node.Address = addrs[0].String()
+	node.address = addrs[0]
 
-	return node.Address
+	return node.address
 }
 
-// GetRPCPort returns the RPC port
-func (node *BaseNode) GetRPCPort() int {
-	return node.RPCPort
+// RPCPort returns the RPC port.
+func (node *BaseNode) RPCPort() uint {
+	return node.rpcPort
 }
 
-// GetRenderPort returns the Graphite render port
-func (node *BaseNode) GetRenderPort() int {
-	return node.RenderPort
+// Condition returns the current status.
+func (node *BaseNode) Cndition() Condition {
+	return node.cond
 }
 
-// GetCarbonPort returns the Graphite carbon port
-func (node *BaseNode) GetCarbonPort() int {
-	return node.CarbonPort
+// Clock returns the current logical clock.
+func (node *BaseNode) Clock() Clock {
+	return node.clock
 }
 
-// GetCondition returns the current status
-func (node *BaseNode) GetCondition() Condition {
-	return node.Condition
-}
-
-// GetClock returns the current logical clock
-func (node *BaseNode) GetClock() Clock {
-	return node.Clock
-}
-
-// GetVersion returns the current repository version
-func (node *BaseNode) GetVersion() Version {
-	return node.Version
-}
-
-// GetUniqueID returns a unique ID of the node
-func (node *BaseNode) GetUniqueID() string {
-	return GetUniqueID(node)
+// UUID returns a unique ID of the node.
+func (node *BaseNode) UUID() string {
+	return GetUUID(node)
 }

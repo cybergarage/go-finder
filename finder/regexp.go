@@ -80,12 +80,12 @@ func (re *Regexp) matchNodeString(nodeStr string) bool {
 
 // MatchNode reports whether the Regexp matches the node.
 func (re *Regexp) MatchNode(node Node) bool {
-	ok := re.matchNodeString(node.GetName())
+	ok := re.matchNodeString(node.Host())
 	if ok {
 		return true
 	}
 
-	return re.matchNodeString(node.GetAddress())
+	return re.matchNodeString(node.Address().String())
 }
 
 // expandNodeString replaces expression to node returns the result;
@@ -104,12 +104,12 @@ func (re *Regexp) expandNodeString(nodeStr string) (string, bool) {
 
 // ExpandNode replaces expression to node returns the result;
 func (re *Regexp) ExpandNode(node Node) (string, bool) {
-	result, ok := re.expandNodeString(node.GetName())
+	result, ok := re.expandNodeString(node.Host())
 	if ok {
 		return result, true
 	}
 
-	result, ok = re.expandNodeString(node.GetAddress())
+	result, ok = re.expandNodeString(node.Address().String())
 	if ok {
 		return result, true
 	}

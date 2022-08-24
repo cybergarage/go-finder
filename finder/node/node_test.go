@@ -15,6 +15,7 @@
 package node
 
 import (
+	"net"
 	"regexp"
 	"testing"
 )
@@ -30,7 +31,7 @@ var testNodeRegExpStrings = []string{
 }
 
 func nodeMachingTest(t *testing.T, node Node) {
-	name := node.GetName()
+	name := node.Host()
 	for _, reString := range testNodeRegExpStrings {
 		re := regexp.MustCompile(reString)
 		if !re.MatchString(name) {
@@ -40,75 +41,61 @@ func nodeMachingTest(t *testing.T, node Node) {
 }
 
 func TestNewBaseNode(t *testing.T) {
-	node := NewBaseNode()
-	node.Name = testNodeName
+	node := NewBaseNode().SetHost(testNodeName)
 	nodeMachingTest(t, node)
 }
 
 func TestNodeHasName(t *testing.T) {
-	node := NewBaseNode()
-	node.Address = "127.0.0.1"
-	if len(node.GetName()) <= 0 {
-		t.Errorf("No name : %s", node.GetAddress())
+	node := NewBaseNode().SetAddress(net.ParseIP("127.0.0.1"))
+	if len(node.Host()) <= 0 {
+		t.Errorf("No host : %s", node.Address())
 	}
 }
 
 func TestNodeHasAddress(t *testing.T) {
-	node := NewBaseNode()
-	node.Name = "localhost"
-	if len(node.GetAddress()) <= 0 {
-		t.Errorf("No address : %s", node.GetName())
+	node := NewBaseNode().SetHost("localhost")
+	if node.Address() == nil {
+		t.Errorf("No address : %s", node.Host())
 	}
 }
 
 func TestEqual(t *testing.T) {
-	node01 := NewBaseNode()
-	node02 := NewBaseNode()
+	node01 := NewBaseNode().SetHost("node01").SetAddress(nil)
+	node02 := NewBaseNode().SetHost("node02").SetAddress(nil)
 
 	// name
 
-	node01.Name = "node01"
-	node01.Address = ""
-	node02.Name = "node02"
-	node02.Address = ""
-
 	if !Equal(node01, node01) {
-		t.Errorf("%s != %s", node01.GetName(), node01.GetName())
+		t.Errorf("%s != %s", node01.Host(), node01.Host())
 	}
 
 	if Equal(node01, node02) {
-		t.Errorf("%s == %s", node01.GetName(), node02.GetName())
+		t.Errorf("%s == %s", node01.Host(), node02.Host())
 	}
 
 	// address
 
-	node01.Name = ""
-	node01.Address = "192.168.100.1"
-	node02.Name = ""
-	node02.Address = "192.168.100.2"
+	node01 = NewBaseNode().SetHost("").SetAddress(net.ParseIP("192.168.100.1"))
+	node02 = NewBaseNode().SetHost("").SetAddress(net.ParseIP("192.168.100.2"))
 
 	if !Equal(node01, node01) {
-		t.Errorf("%s != %s", node01.GetName(), node01.GetName())
+		t.Errorf("%s != %s", node01.Host(), node01.Host())
 	}
 
 	if Equal(node01, node02) {
-		t.Errorf("%s == %s", node01.GetName(), node02.GetName())
+		t.Errorf("%s == %s", node01.Host(), node02.Host())
 	}
 
 	// port
 
-	node01.Name = "node01"
-	node01.Address = "192.168.100.1"
-	node01.RPCPort = 0001
-	node02.Name = node01.Name
-	node02.Address = node01.Address
-	node02.RPCPort = 0002
+	node01 = NewBaseNode().SetHost("node01").SetAddress(net.ParseIP("192.168.100.1")).SetRPCPort(0001)
+	node02 = NewBaseNode().SetHost("node01").SetAddress(net.ParseIP("192.168.100.1")).SetRPCPort(0002)
 
 	if !Equal(node01, node01) {
-		t.Errorf("%s != %s", node01.GetName(), node01.GetName())
+		t.Errorf("%s != %s", node01.Host(), node01.Host())
 	}
 
 	if Equal(node01, node02) {
-		t.Errorf("%s == %s", node01.GetName(), node02.GetName())
+		t.Errorf("%s == %s", node01.Host(), node02.Host())
 	}
 }

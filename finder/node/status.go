@@ -20,9 +20,6 @@ type Condition uint
 // Clock represents a node clock type
 type Clock uint
 
-// Version represents a node version type
-type Version uint
-
 const (
 	ConditionUnknown   = 0x00
 	ConditionInitial   = 0x10
@@ -32,12 +29,10 @@ const (
 	ConditionOutOfDate = 0x32
 )
 
-// Status represents an abstract node interface for the status
+// Status represents an abstractinterface for the node status.
 type Status interface {
-	// GetCondition returns the current status
-	GetCondition() Condition
-	// GetClock returns the current logical clock
-	GetClock() Clock
-	// GetVersion returns the current repository version
-	GetVersion() Version
+	// Condition returns the current status.
+	Condition() Condition
+	// Clock returns the current logical clock.
+	Clock() Clock
 }

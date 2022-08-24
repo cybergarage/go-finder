@@ -108,12 +108,12 @@ func (finder *baseFinder) GetPrefixNodes(targetString string) ([]Node, error) {
 	matchedNodes := make([]Node, 0)
 
 	for _, node := range nodes {
-		port := node.GetRPCPort()
-		addr := node.GetAddress()
-		name := node.GetName()
+		port := node.RPCPort()
+		addr := node.Address()
+		name := node.Host()
 
 		hosts := []string{
-			addr,
+			addr.String(),
 			fmt.Sprintf("%s:%d", addr, port),
 			name,
 			fmt.Sprintf("%s:%d", name, port),
@@ -143,12 +143,12 @@ func (finder *baseFinder) GetRegexpNodes(re *regexp.Regexp) ([]Node, error) {
 	matchedNodes := make([]Node, 0)
 
 	for _, node := range nodes {
-		port := node.GetRPCPort()
-		addr := node.GetAddress()
-		name := node.GetName()
+		port := node.RPCPort()
+		addr := node.Address()
+		name := node.Host()
 
 		hosts := []string{
-			addr,
+			addr.String(),
 			fmt.Sprintf("%s:%d", addr, port),
 			name,
 			fmt.Sprintf("%s:%d", name, port),

@@ -30,7 +30,7 @@ func NewStaticFinderWithConfig(config FinderConfig) Finder {
 	nodes := []Node{}
 	for _, host := range config.Hosts {
 		node := node.NewBaseNode()
-		node.Name = host
+		node.SetHost(host)
 		nodes = append(nodes, node)
 	}
 	return NewStaticFinderWithNodes(nodes)

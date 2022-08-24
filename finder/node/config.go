@@ -14,49 +14,41 @@
 
 package node
 
+import "net"
+
 // Config represents an abstract node interface for the configuration
 type Config interface {
-	// GetCluster returns the cluster name
-	GetCluster() string
-	// GetName returns the host name
-	GetName() string
-	// GetAddress returns the interface address
-	GetAddress() string
-	// GetRPCPort returns the RPC port
-	GetRPCPort() int
-	// GetRenderPort returns the Graphite render port
-	GetRenderPort() int
-	// GetCarbonPort returns the Graphite carbon port
-	GetCarbonPort() int
+	// Cluster returns the cluster name.
+	Cluster() string
+	// Host returns the host name.
+	Host() string
+	// Host returns the address.
+	Address() net.IP
+	// RPCPort returns the RPC port.
+	RPCPort() uint
 }
 
 // ConfigEqual returns true if the other node is same with this node
 func ConfigEqual(this, other Config) bool {
-	if this.GetCluster() != other.GetCluster() {
+	if this.Cluster() != other.Cluster() {
 		return false
 	}
 
-	if 0 < len(this.GetName()) && 0 < len(other.GetName()) {
-		if this.GetName() != other.GetName() {
+	if this.Host() != other.Host() {
+		return false
+	}
+
+	if this.Address() == nil {
+		if other.Address() != nil {
 			return false
 		}
 	}
 
-	if 0 < len(this.GetAddress()) && 0 < len(other.GetAddress()) {
-		if this.GetAddress() != other.GetAddress() {
-			return false
-		}
-	}
-
-	if this.GetRPCPort() != other.GetRPCPort() {
+	if !this.Address().Equal(other.Address()) {
 		return false
 	}
 
-	if this.GetRenderPort() != other.GetRenderPort() {
-		return false
-	}
-
-	if this.GetCarbonPort() != other.GetCarbonPort() {
+	if this.RPCPort() != other.RPCPort() {
 		return false
 	}
 

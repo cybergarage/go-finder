@@ -19,12 +19,12 @@ import (
 	"reflect"
 	"time"
 
+	uecho "github.com/cybergarage/uecho-go/net/echonet"
+	uecho_protocol "github.com/cybergarage/uecho-go/net/echonet/protocol"
+
 	finder_echonet "github.com/cybergarage/go-finder/finder/echonet"
 	"github.com/cybergarage/go-finder/finder/node"
 	"github.com/cybergarage/go-logger/log"
-
-	uecho_echonet "github.com/cybergarage/uecho-go/net/echonet"
-	uecho_protocol "github.com/cybergarage/uecho-go/net/echonet/protocol"
 )
 
 const (
@@ -97,7 +97,7 @@ func (finder *EchonetFinder) IsRunning() bool {
 
 // String returns the description
 func (finder *EchonetFinder) String() string {
-	return fmt.Sprintf("%s:%s", FinderEchonet, uecho_echonet.Version)
+	return fmt.Sprintf("%s:%s", FinderEchonet, uecho.Version)
 }
 
 func (finder *EchonetFinder) ControllerMessageReceived(msg *uecho_protocol.Message) {
@@ -108,17 +108,17 @@ func (finder *EchonetFinder) ControllerMessageReceived(msg *uecho_protocol.Messa
 	finder.EchonetController.EchonetDevice.UpdatePropertyWithNode(finder.localNode)
 }
 
-func (finder *EchonetFinder) ControllerNewNodeFound(echonetNode *uecho_echonet.RemoteNode) {
+func (finder *EchonetFinder) ControllerNewNodeFound(echonetNode *uecho.RemoteNode) {
 	if !finder.IsRunning() {
 		return
 	}
 
-	log.Trace(msgEchonetFinderFoundEchonetNode, echonetNode.GetAddress(), echonetNode.GetPort())
+	log.Trace(msgEchonetFinderFoundEchonetNode, echonetNode.Address(), echonetNode.Port())
 
 	reqMsg := finder_echonet.NewRequestAllPropertiesMessage()
-	resMsg, err := finder.PostMessage(echonetNode, reqMsg)
+	resMsg, err := finder.EchonetController.PostMessage(echonetNode, reqMsg)
 	if err != nil {
-		log.Error(errorEchonetFinderNoResponse, echonetNode.GetAddress(), echonetNode.GetPort())
+		log.Error(errorEchonetFinderNoResponse, echonetNode.Address(), echonetNode.Port())
 		log.Error("%s", err.Error())
 		return
 	}
@@ -129,7 +129,7 @@ func (finder *EchonetFinder) ControllerNewNodeFound(echonetNode *uecho_echonet.R
 		return
 	}
 
-	log.Trace(msgEchonetFinderFoundCadiateNode, candidateNode.GetAddress(), candidateNode.GetRPCPort())
+	log.Trace(msgEchonetFinderFoundCadiateNode, candidateNode.Address(), candidateNode.RPCPort())
 
 	if finder.IsLocalNode(candidateNode) {
 		return
@@ -139,7 +139,7 @@ func (finder *EchonetFinder) ControllerNewNodeFound(echonetNode *uecho_echonet.R
 		return
 	}
 
-	log.Info(msgEchonetFinderFoundNewNode, candidateNode.GetAddress(), candidateNode.GetRPCPort())
+	log.Info(msgEchonetFinderFoundNewNode, candidateNode.Address(), candidateNode.RPCPort())
 
 	err = finder.addNode(candidateNode)
 	if err != nil {
