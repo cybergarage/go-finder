@@ -113,23 +113,23 @@ func (finder *EchonetFinder) ControllerNewNodeFound(echonetNode *uecho.RemoteNod
 		return
 	}
 
-	log.Trace(msgEchonetFinderFoundEchonetNode, echonetNode.Address(), echonetNode.Port())
+	log.Tracef(msgEchonetFinderFoundEchonetNode, echonetNode.Address(), echonetNode.Port())
 
 	reqMsg := finder_echonet.NewRequestAllPropertiesMessage()
 	resMsg, err := finder.EchonetController.PostMessage(echonetNode, reqMsg)
 	if err != nil {
-		log.Error(errorEchonetFinderNoResponse, echonetNode.Address(), echonetNode.Port())
-		log.Error("%s", err.Error())
+		log.Errorf(errorEchonetFinderNoResponse, echonetNode.Address(), echonetNode.Port())
+		log.Errorf("%s", err.Error())
 		return
 	}
 
 	candidateNode, err := finder_echonet.NewFinderNodeWithResponseMesssage(resMsg)
 	if err != nil {
-		log.Error("%s", err.Error())
+		log.Errorf("%s", err.Error())
 		return
 	}
 
-	log.Trace(msgEchonetFinderFoundCadiateNode, candidateNode.Address(), candidateNode.RPCPort())
+	log.Tracef(msgEchonetFinderFoundCadiateNode, candidateNode.Address(), candidateNode.RPCPort())
 
 	if finder.IsLocalNode(candidateNode) {
 		return
@@ -139,11 +139,11 @@ func (finder *EchonetFinder) ControllerNewNodeFound(echonetNode *uecho.RemoteNod
 		return
 	}
 
-	log.Info(msgEchonetFinderFoundNewNode, candidateNode.Address(), candidateNode.RPCPort())
+	log.Infof(msgEchonetFinderFoundNewNode, candidateNode.Address(), candidateNode.RPCPort())
 
 	err = finder.addNode(candidateNode)
 	if err != nil {
-		log.Error("%s", err.Error())
+		log.Errorf("%s", err.Error())
 		return
 	}
 }

@@ -19,5 +19,5 @@ import (
 )
 
 const (
-	ManufacturerCode = uecho.NodeManufacturerUnknown
+	ManufacturerCode = uecho.NodeManufacturerExperimental
 )

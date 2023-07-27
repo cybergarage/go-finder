@@ -32,7 +32,7 @@ func NewStaticFinderWithNodes(nodes []Node) Finder {
 	for _, node := range nodes {
 		err := finder.addNode(node)
 		if err != nil {
-			log.Error(err.Error())
+			log.Errorf(err.Error())
 		}
 	}
 

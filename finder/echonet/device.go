@@ -103,7 +103,7 @@ func (dev *EchonetDevice) UpdatePropertyWithNode(node node.Node) {
 
 		err := dev.SetPropertyData(uecho_protocol.PropertyCode(propCode), propData)
 		if err != nil {
-			log.Error(err.Error())
+			log.Errorf(err.Error())
 		}
 	}
 }

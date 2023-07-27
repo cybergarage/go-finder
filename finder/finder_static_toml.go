@@ -40,12 +40,12 @@ func NewStaticFinderWithConfig(config FinderConfig) Finder {
 func NewStaticFinderWithTOML(filename string) (Finder, error) {
 	conf := Config{}
 	if filename != "" {
-		log.Trace("TOML Config file path: %s", filename)
+		log.Tracef("TOML Config file path: %s", filename)
 		_, err := toml.DecodeFile(filename, &conf)
 		if err != nil {
 			return nil, err
 		}
-		log.Trace("Got config: %s", filename)
+		log.Tracef("Got config: %s", filename)
 	}
 	return NewStaticFinderWithConfig(conf.Finder), nil
 }
