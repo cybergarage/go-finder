@@ -50,12 +50,12 @@ func NewEchonetNodeWithNode(srcNode node.Node) (*EchonetNode, error) {
 	return node, nil
 }
 
-// Address returns the interface address
+// Address returns the interface address.
 func (node *EchonetNode) Address() string {
 	return node.LocalNode.Address()
 }
 
-// GetLocalNode returns the local echonet node in the node
+// GetLocalNode returns the local echonet node in the node.
 func (node *EchonetNode) GetLocalNode() *uecho.LocalNode {
 	return node.LocalNode
 }

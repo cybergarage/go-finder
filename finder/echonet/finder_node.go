@@ -19,7 +19,6 @@ import (
 	"net"
 
 	"github.com/cybergarage/go-finder/finder/node"
-
 	uecho "github.com/cybergarage/uecho-go/net/echonet"
 )
 

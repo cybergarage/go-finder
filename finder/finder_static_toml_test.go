@@ -44,5 +44,4 @@ func TestStaticTOMLFinder(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
 }

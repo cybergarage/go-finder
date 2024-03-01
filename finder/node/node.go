@@ -19,7 +19,7 @@ import (
 	"fmt"
 )
 
-// Node represents an abstract node interface
+// Node represents an abstract node interface.
 type Node interface {
 	Config
 	Status
@@ -27,7 +27,7 @@ type Node interface {
 	UUID() string
 }
 
-// Equal returns true if the other node is same with this node
+// Equal returns true if the other node is same with this node.
 func Equal(this, other Node) bool {
 	return ConfigEqual(this, other)
 }

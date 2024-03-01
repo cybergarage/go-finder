@@ -16,7 +16,7 @@ package node
 
 import "net"
 
-// Config represents an abstract node interface for the configuration
+// Config represents an abstract node interface for the configuration.
 type Config interface {
 	// Cluster returns the cluster name.
 	Cluster() string
@@ -28,7 +28,7 @@ type Config interface {
 	RPCPort() uint
 }
 
-// ConfigEqual returns true if the other node is same with this node
+// ConfigEqual returns true if the other node is same with this node.
 func ConfigEqual(this, other Config) bool {
 	if this.Cluster() != other.Cluster() {
 		return false

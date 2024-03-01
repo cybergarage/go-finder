@@ -48,7 +48,7 @@ func (finder *SharedFinder) IsRunning() bool {
 	return true
 }
 
-// String returns the description
+// String returns the description.
 func (finder *SharedFinder) String() string {
 	return FinderShared
 }

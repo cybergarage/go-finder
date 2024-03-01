@@ -50,7 +50,7 @@ func NewStaticFinderWithTOML(filename string) (Finder, error) {
 	return NewStaticFinderWithConfig(conf.Finder), nil
 }
 
-// String returns the description
+// String returns the description.
 func (finder *StaticTOMLFinder) String() string {
 	return FinderStaticToml
 }

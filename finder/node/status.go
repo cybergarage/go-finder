@@ -14,10 +14,10 @@
 
 package node
 
-// Condition represents node condition types
+// Condition represents node condition types.
 type Condition uint
 
-// Clock represents a node clock type
+// Clock represents a node clock type.
 type Clock uint
 
 const (

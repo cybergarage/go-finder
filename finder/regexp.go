@@ -39,7 +39,7 @@ func NewRegexp() *Regexp {
 	return regexp
 }
 
-// Compile parses a regular expression
+// Compile parses a regular expression.
 func (re *Regexp) Compile(expr string) error {
 	var err error
 	re.goRegexp, err = regexp.Compile(expr)
@@ -88,7 +88,7 @@ func (re *Regexp) MatchNode(node Node) bool {
 	return re.matchNodeString(node.Address().String())
 }
 
-// expandNodeString replaces expression to node returns the result;
+// expandNodeString replaces expression to node returns the result;.
 func (re *Regexp) expandNodeString(nodeStr string) (string, bool) {
 	if len(nodeStr) <= 0 {
 		return "", false
@@ -102,7 +102,7 @@ func (re *Regexp) expandNodeString(nodeStr string) (string, bool) {
 	return re.expr, true
 }
 
-// ExpandNode replaces expression to node returns the result;
+// ExpandNode replaces expression to node returns the result;.
 func (re *Regexp) ExpandNode(node Node) (string, bool) {
 	result, ok := re.expandNodeString(node.Host())
 	if ok {

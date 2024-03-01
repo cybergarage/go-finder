@@ -59,7 +59,7 @@ func (finder *StaticFinder) IsRunning() bool {
 	return true
 }
 
-// String returns the description
+// String returns the description.
 func (finder *StaticFinder) String() string {
 	return FinderStatic
 }

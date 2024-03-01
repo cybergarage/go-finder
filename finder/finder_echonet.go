@@ -19,12 +19,11 @@ import (
 	"reflect"
 	"time"
 
-	uecho "github.com/cybergarage/uecho-go/net/echonet"
-	uecho_protocol "github.com/cybergarage/uecho-go/net/echonet/protocol"
-
 	finder_echonet "github.com/cybergarage/go-finder/finder/echonet"
 	"github.com/cybergarage/go-finder/finder/node"
 	"github.com/cybergarage/go-logger/log"
+	uecho "github.com/cybergarage/uecho-go/net/echonet"
+	uecho_protocol "github.com/cybergarage/uecho-go/net/echonet/protocol"
 )
 
 const (
@@ -95,7 +94,7 @@ func (finder *EchonetFinder) IsRunning() bool {
 	return finder.EchonetController.IsRunning()
 }
 
-// String returns the description
+// String returns the description.
 func (finder *EchonetFinder) String() string {
 	return fmt.Sprintf("%s:%s", FinderEchonet, uecho.Version)
 }

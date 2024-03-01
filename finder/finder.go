@@ -28,7 +28,7 @@ type FinderNotifyListener interface {
 	FinderNotifyReceived(*Node)
 }
 
-// Finder represents an abstract interface
+// Finder represents an abstract interface.
 type Finder interface {
 	// SearchAll searches all nodes.
 	Search() error

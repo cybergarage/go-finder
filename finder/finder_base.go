@@ -98,7 +98,7 @@ func (finder *baseFinder) GetNeighborhoodNode(node Node) (Node, error) {
 	return nodes[nodeIdx], nil
 }
 
-// GetPrefixNodes returns only nodes matching with a specified start string
+// GetPrefixNodes returns only nodes matching with a specified start string.
 func (finder *baseFinder) GetPrefixNodes(targetString string) ([]Node, error) {
 	nodes, err := finder.GetAllNodes()
 	if err != nil {
@@ -133,7 +133,7 @@ func (finder *baseFinder) GetPrefixNodes(targetString string) ([]Node, error) {
 	return matchedNodes, nil
 }
 
-// GetRegexpNodes returns only nodes matching with a specified regular expression
+// GetRegexpNodes returns only nodes matching with a specified regular expression.
 func (finder *baseFinder) GetRegexpNodes(re *regexp.Regexp) ([]Node, error) {
 	nodes, err := finder.GetAllNodes()
 	if err != nil {
