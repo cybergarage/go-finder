@@ -1,6 +1,6 @@
 module github.com/cybergarage/go-finder
 
-go 1.18
+go 1.22
 
 require (
 	github.com/cybergarage/go-logger v1.3.4 // indirect
